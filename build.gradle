@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'net.feedthemadness'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+}
+
+mainClassName = 'net.feedthemadness.glib.command.Main'
+
+run {
+	standardInput = System.in
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.feedthemadness.glib.command.Main'
+    }
+}

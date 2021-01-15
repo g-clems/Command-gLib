@@ -37,7 +37,8 @@ public class Main {
 						.addSubElement(
 								new SubArgument()// /run <gen> <name>
 								.setType(new SubArgumentElementTypeString())
-								.addExecutor(executor, "run gen name"))
+								.addExecutor(executor, "run gen name")
+								)
 						)
 				.addSubElement(
 						new SubCommand()// /run <name>
@@ -46,9 +47,40 @@ public class Main {
 						.addSubElement(
 								new SubArgument()// /run <name> <gen>
 								.setType(new SubArgumentElementTypeInt())
-								.addExecutor(executor, "run name gen"))),
+								.addExecutor(executor, "run name gen")
+								)
+						),
 				dispatcher);
+		
 		CommandRegister.registerCommand(new Command().setPrefix("/").setLabel("stop").addExecutor(dispatcher, "stop"), dispatcher);
+		
+		CommandRegister.registerCommand(
+				new Command()
+				.setPrefix("/")
+				.setLabelAndAliases("benchmark", "benchmark0", "benchmark1", "benchmark2", "benchmark3", "benchmark4", "benchmark5")
+				.addSubElement(
+						new SubArgument()
+						.setType(new SubArgumentElementTypeInt())
+						.addExecutor(dispatcher, "perform benchmark")
+						)
+				.addSubElement(
+						new SubArgument()
+						.setType(new SubArgumentElementTypeString())
+						.addSubElement(
+								new SubArgument()
+								.setType(new SubArgumentElementTypeInt())
+								.addSubElement(
+										new SubArgument()
+										.setType(new SubArgumentElementTypeInt())
+										.addSubElement(
+												new SubArgument()
+												.setType(new SubArgumentElementTypeInt())
+												.addExecutor(dispatcher, "benchmark")
+												)
+										)
+								)
+						),
+				dispatcher);
 		
 		dispatcher.startListener();
 	}

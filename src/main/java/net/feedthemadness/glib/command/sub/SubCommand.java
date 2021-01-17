@@ -3,22 +3,22 @@ package net.feedthemadness.glib.command.sub;
 import net.feedthemadness.glib.command.ACommandElement;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
-import net.feedthemadness.glib.command.sub.command.ISubCommandElementType;
-import net.feedthemadness.glib.command.sub.command.SubCommandElementTypeLabel;
-import net.feedthemadness.glib.command.sub.command.SubCommandElementTypeString;
+import net.feedthemadness.glib.command.sub.command.ISubCommandType;
+import net.feedthemadness.glib.command.sub.command.SubCommandTypeLabel;
+import net.feedthemadness.glib.command.sub.command.SubCommandTypeString;
 
 public class SubCommand extends ACommandElement {
 	
-	protected ISubCommandElementType type = new SubCommandElementTypeString();
+	protected ISubCommandType type = new SubCommandTypeString();
 	
 	public SubCommand() {}
 	
 	public SubCommand(String label) {
-		this.type = new SubCommandElementTypeLabel(label);
+		this.type = new SubCommandTypeLabel(label);
 	}
 	
 	public SubCommand(String label, String... aliases) {
-		this.type = new SubCommandElementTypeLabel(label, aliases);
+		this.type = new SubCommandTypeLabel(label, aliases);
 	}
 	
 	@Override
@@ -33,11 +33,11 @@ public class SubCommand extends ACommandElement {
 		return this;
 	}
 	
-	public ISubCommandElementType getType() {
+	public ISubCommandType getType() {
 		return type;
 	}
 	
-	public SubCommand setType(ISubCommandElementType type) {
+	public SubCommand setType(ISubCommandType type) {
 		this.type = type;
 		return this;
 	}

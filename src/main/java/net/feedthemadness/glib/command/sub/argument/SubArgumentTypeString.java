@@ -1,6 +1,6 @@
 package net.feedthemadness.glib.command.sub.argument;
 
-public class SubArgumentElementTypeString extends ASubArgumentElementType {
+public class SubArgumentTypeString extends ASubArgumentType {
 	
 	@Override
 	public boolean validate(String parsableArgument) {

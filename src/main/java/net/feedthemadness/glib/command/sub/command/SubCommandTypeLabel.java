@@ -2,15 +2,15 @@ package net.feedthemadness.glib.command.sub.command;
 
 import net.feedthemadness.glib.command.component.CommandLabel;
 
-public class SubCommandElementTypeLabel extends CommandLabel implements ISubCommandElementType {
+public class SubCommandTypeLabel extends CommandLabel implements ISubCommandType {
 	
-	public SubCommandElementTypeLabel() {}
+	public SubCommandTypeLabel() {}
 	
-	public SubCommandElementTypeLabel(String label) {
+	public SubCommandTypeLabel(String label) {
 		super(label);
 	}
 	
-	public SubCommandElementTypeLabel(String label, String... aliases) {
+	public SubCommandTypeLabel(String label, String... aliases) {
 		super(label, aliases);
 	}
 	

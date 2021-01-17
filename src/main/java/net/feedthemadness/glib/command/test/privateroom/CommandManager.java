@@ -6,8 +6,8 @@ import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
 import net.feedthemadness.glib.command.sub.SubArgument;
 import net.feedthemadness.glib.command.sub.SubCommand;
-import net.feedthemadness.glib.command.sub.argument.SubArgumentElementTypeInt;
-import net.feedthemadness.glib.command.sub.argument.SubArgumentElementTypeString;
+import net.feedthemadness.glib.command.sub.argument.SubArgumentTypeInt;
+import net.feedthemadness.glib.command.sub.argument.SubArgumentTypeString;
 
 public class CommandManager {
 	
@@ -22,7 +22,7 @@ public class CommandManager {
 						new SubCommand("name", "rename")
 						.addSubElement(
 								new SubArgument()
-								.setType(new SubArgumentElementTypeString())
+								.setType(new SubArgumentTypeString())
 								.addExecutor(executor, "config name")
 								)
 						)
@@ -143,7 +143,7 @@ public class CommandManager {
 						new SubCommand("userlimit", "user-limit", "limit")
 						.addSubElement(
 								new SubArgument()
-								.setType(new SubArgumentElementTypeInt())
+								.setType(new SubArgumentTypeInt())
 								.addExecutor(executor, "config userlimit")
 								)
 						),

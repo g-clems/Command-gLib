@@ -1,8 +1,8 @@
 package net.feedthemadness.glib.command.test.privateroom;
 
-import net.feedthemadness.glib.command.sub.argument.ISubArgumentElementType;
+import net.feedthemadness.glib.command.sub.argument.ISubArgumentType;
 
-public class CommandTypeRole implements ISubArgumentElementType {
+public class CommandTypeRole implements ISubArgumentType {
 	
 	@Override
 	public boolean validate(String parsableArgument) {

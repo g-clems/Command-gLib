@@ -4,7 +4,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
-import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 import net.feedthemadness.glib.command.executor.CommandExecutor;
 import net.feedthemadness.glib.command.executor.CommandListener;
 import net.feedthemadness.glib.command.executor.ExecutorReference;
@@ -55,12 +54,12 @@ public abstract class ACommandElement {
 		return this;
 	}
 	
-	protected void dispatch(ICommandDispatcher dispatcher, CommandContext context, Command command, int depth) {
+	protected void dispatch(CommandContext context, int depth) {
 		
 		for(int j = 0 ; j < commandExecutors.length ; j++) {
 			CommandExecutor commandExecutor = commandExecutors[j];
 			
-			commandExecutor.dispatch(dispatcher, context, command, depth);
+			commandExecutor.dispatch(context, depth);
 		}
 		
 		depth++;
@@ -69,12 +68,12 @@ public abstract class ACommandElement {
 		for(int i = 0 ; i < subElements.length ; i++) {
 			ACommandElement subElement = subElements[i];
 			
-			if(!subElement.checkDispatch(dispatcher, context, depth)) continue;
+			if(!subElement.checkDispatch(context, depth)) continue;
 			
-			subElement.dispatch(dispatcher, context, command, depth);
+			subElement.dispatch(context, depth);
 		}
 	}
 	
-	public abstract boolean checkDispatch(ICommandDispatcher dispatcher, CommandContext context, int depth);
+	public abstract boolean checkDispatch(CommandContext context, int depth);
 	
 }

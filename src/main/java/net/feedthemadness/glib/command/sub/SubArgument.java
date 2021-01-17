@@ -2,7 +2,6 @@ package net.feedthemadness.glib.command.sub;
 
 import net.feedthemadness.glib.command.ACommandElement;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
-import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
 import net.feedthemadness.glib.command.sub.argument.ISubArgumentElementType;
 import net.feedthemadness.glib.command.sub.argument.SubArgumentElementTypeString;
@@ -36,7 +35,7 @@ public class SubArgument extends ACommandElement {
 	}
 	
 	@Override
-	public boolean checkDispatch(ICommandDispatcher dispatcher, CommandContext context, int depth) {
+	public boolean checkDispatch(CommandContext context, int depth) {
 		
 		if(!type.validate(context.getRawArg(depth))) {
 			return false;
@@ -46,4 +45,5 @@ public class SubArgument extends ACommandElement {
 		
 		return true;
 	}
+	
 }

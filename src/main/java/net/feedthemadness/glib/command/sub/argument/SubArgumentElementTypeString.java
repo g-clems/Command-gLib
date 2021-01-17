@@ -13,8 +13,8 @@ public class SubArgumentElementTypeString extends ASubArgumentElementType {
 	}
 	
 	@Override
-	public Object parse(String str) {
-		return str;
+	public Object parse(String parsableArgument) {
+		return parsableArgument;
 	}
 	
 }

@@ -9,14 +9,13 @@ public class CommandLabel {
 	private String label = "";
 	private String[] aliases = new String[0];
 
-	public CommandLabel() {
-	}
+	public CommandLabel() {}
 
 	public CommandLabel(String label) {
 		this.label = label;
 	}
 	
-	public CommandLabel(String label, String...aliases) {
+	public CommandLabel(String label, String... aliases) {
 		this.label = label;
 		this.aliases = aliases;
 	}
@@ -34,12 +33,12 @@ public class CommandLabel {
 		return Arrays.copyOf(aliases, aliases.length);
 	}
 	
-	public CommandLabel setAliases(String...aliases) {
+	public CommandLabel setAliases(String... aliases) {
 		this.aliases = aliases;
 		return this;
 	}
 	
-	public CommandLabel addAliases(String...aliases) {
+	public CommandLabel addAliases(String... aliases) {
 		String[] newAliases = Arrays.copyOf(this.aliases, this.aliases.length + aliases.length);
 		
 		for (int i = 0; i < aliases.length; i++) {
@@ -50,14 +49,18 @@ public class CommandLabel {
 		return this;
 	}
 	
-	public boolean validate(CommandContext context, int prefixLenght) {
+	public boolean check(CommandContext context, int prefixLenght) {
 		String contextLabel = context.getRawArg(0).substring(prefixLenght);
 		
-		if(label.equalsIgnoreCase(contextLabel)) return true;
+		return check(contextLabel);
+	}
+	
+	public boolean check(String label) {
+		if(this.label.equalsIgnoreCase(label)) return true;
 		
 		for (int i = 0; i < aliases.length; i++) {
 			String alias = aliases[i];
-			if(alias.equalsIgnoreCase(contextLabel)) return true;
+			if(alias.equalsIgnoreCase(label)) return true;
 		}
 		return false;
 	}

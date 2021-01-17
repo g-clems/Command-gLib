@@ -3,7 +3,6 @@ package net.feedthemadness.glib.command;
 import net.feedthemadness.glib.command.component.CommandLabel;
 import net.feedthemadness.glib.command.component.CommandPrefix;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
-import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
 
 public class Command extends ACommandElement {
@@ -83,15 +82,15 @@ public class Command extends ACommandElement {
 		return this;
 	}
 	
-	public void dispatch(ICommandDispatcher dispatcher, CommandContext context, Command command) {
-		if(!checkDispatch(dispatcher, context, 0)) return;
-		dispatch(dispatcher, context, command, 0);
+	public void dispatch(CommandContext context) {
+		if(!checkDispatch(context, 0)) return;
+		dispatch(context, 0);
 	}
 	
 	@Override
-	public boolean checkDispatch(ICommandDispatcher dispatcher, CommandContext context, int depth) {
+	public boolean checkDispatch(CommandContext context, int depth) {
 		if(!prefix.validate(context)) return false;
-		if(!label.validate(context, prefix.getPrefix().length())) return false;
+		if(!label.check(context, prefix.getPrefix().length())) return false;
 		return true;
 	}
 	

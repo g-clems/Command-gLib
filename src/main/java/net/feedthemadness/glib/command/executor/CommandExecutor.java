@@ -2,9 +2,8 @@ package net.feedthemadness.glib.command.executor;
 
 import java.util.Arrays;
 
-import net.feedthemadness.glib.command.Command;
+import net.feedthemadness.glib.command.Main;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
-import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 
 public class CommandExecutor {
 	
@@ -23,27 +22,30 @@ public class CommandExecutor {
 		return this;
 	}
 	
-	public void dispatch(ICommandDispatcher dispatcher, CommandContext context, Command command, int depth) {
+	public void dispatch(CommandContext context, int depth) {
 		
-		Object[] args = new Object[depth + 3];
-		args[0] = dispatcher;
-		args[1] = context;
-		args[2] = command;
-		for(int j = 0; j < depth; j++) {
-			args[j + 3] = context.getArgType(j).parse(context.getRawArg(j + 1));
+		Object[] args = new Object[1 + context.getDispatchContext().length + depth];
+		
+		args[0] = context.clone();
+		for(int i = 0 ; i < context.getDispatchContext().length ; i++) {
+			args[i + 1] = context.getDispatchContext()[i];
+		}
+		for(int i = 0 ; i < depth ; i++) {
+			args[i + context.getDispatchContext().length + 1] = context.getArgType(i).parse(context.getRawArg(i + 1));
 		}
 		
-		for(int i = 0; i < executorReferences.length; i++) {
+		for(int i = 0 ; i < executorReferences.length ; i++) {
 			ExecutorReference executor = executorReferences[i];
 			
 			if(!id.equals(executor.getId())) continue;
 			
 			if(!executor.validateType(args)) {
+				Main.getTerminal().error("Mismatch argument type during dispatch");
 				//TODO proper error
 				continue;
 			}
 			
-			executor.dispatch(dispatcher, context, command, depth, args);
+			executor.dispatch(args);
 		}
 	}
 	

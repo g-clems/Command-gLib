@@ -4,6 +4,6 @@ public interface ICommandElementType {
 	
 	boolean validate(String parsableArgument);
 	
-	Object parse(String str);
+	Object parse(String parsableArgument);
 	
 }

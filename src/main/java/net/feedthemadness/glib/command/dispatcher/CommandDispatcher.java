@@ -19,13 +19,13 @@ public class CommandDispatcher implements ICommandDispatcher {
 		return this;
 	}
 	
-	public void dispatch(String parsableCommand, ICommandDispatcher dispatcher) {
-		CommandContext context = new CommandContext(parsableCommand);
+	public void dispatch(ICommandDispatcher dispatcher, String parsableCommand, Object... dispatchContext) {
 		
 		for (int i = 0; i < commands.length; i++) {
 			Command command = commands[i];
+			CommandContext context = new CommandContext(dispatcher, command, dispatchContext, parsableCommand);
 			
-			command.dispatch(dispatcher, context, command);
+			command.dispatch(context);
 		}
 	}
 	

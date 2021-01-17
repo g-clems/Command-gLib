@@ -2,18 +2,15 @@ package net.feedthemadness.glib.command.test;
 
 import java.util.Random;
 
-import net.feedthemadness.glib.command.Command;
+import net.feedthemadness.glib.command.Main;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.dispatcher.CommandDispatcher;
 import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 import net.feedthemadness.glib.command.executor.CommandListener;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
 import net.feedthemadness.glib.command.test.utils.Benchmark;
-import net.feedthemadness.glib.command.test.utils.TerminalWrapper;
 
 public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
-	
-	private TerminalWrapper tw = new TerminalWrapper();
 	
 	private CommandDispatcher commandDispatcher = new CommandDispatcher();
 	
@@ -27,12 +24,12 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	public void performBenchmark(int tests) {
 		
 		if(tests < 1000) {
-			tw.warning("Could not perform less than 1000 tests");
+			Main.getTerminal().warning("Could not perform less than 1000 tests");
 			return;
 		}
 		
-		tw.info("Performing " + tests + " tests");
-		tw.log("Init tests");
+		Main.getTerminal().info("Performing " + tests + " tests");
+		Main.getTerminal().log("Init tests");
 		
 		String[] labels = {"benchmark", "benchmark0", "benchmark1", "benchmark2", "benchmark3", "benchmark4", "benchmark5"};
 		String[] args1 = {"ouqzbd", "yfsefgs", "oiqzhouqhf", "qugzfhihqef", "quzhuqozhfuses", "isehfs", "sjefn", "sienfsnefons", "jsbef"};
@@ -53,22 +50,22 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 			parsableCommands[i] = builder.toString();
 		}
 		
-		tw.log("Start tests");
+		Main.getTerminal().log("Start tests");
 		
 		Benchmark benchmark = new Benchmark(tests / 1000);
 		Benchmark globalBenchmark = new Benchmark(1);
 		
 		for(int i = 0; i < parsableCommands.length ; i++) {
-			commandDispatcher.dispatch(parsableCommands[i], this);
+			commandDispatcher.dispatch(this, parsableCommands[i]);
 			if((i % 1000) + 1 == 0) benchmark.update();
 		}
 		
 		globalBenchmark.update();
 		
-		tw.log("Done");
+		Main.getTerminal().log("Done");
 		
-		tw.info("Total compute time : " + globalBenchmark.getAverageDelta());
-		tw.info("Compute time per 1000 : min/avg/med/max = "
+		Main.getTerminal().info("Total compute time : " + globalBenchmark.getAverageDelta());
+		Main.getTerminal().info("Compute time per 1000 : min/avg/med/max = "
 				+ Math.round(benchmark.getMinDelta()) + '/'
 				+ Math.round(benchmark.getAverageDelta()) + '/'
 				+ Math.round(benchmark.getMedianDelta()) + '/'
@@ -77,22 +74,21 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	
 	public void startListener() {
 		while(!stop) {
-			String str = tw.requestString("");
-			tw.log("Dispatch");
-			commandDispatcher.dispatch(str, this);
+			String str = Main.getTerminal().requestString("");
+			commandDispatcher.dispatch(this, str);
 		}
 	}
 	
 	@CommandListener("perform benchmark")
-	public void performBenchmark(ICommandDispatcher dispatcher, CommandContext context, Command command, int tests) {
+	public void performBenchmark(CommandContext context, int tests) {
 		performBenchmark(tests);
 	}
 	
 	@CommandListener("benchmark")
-	public void benchmark(ICommandDispatcher dispatcher, CommandContext context, Command command, String str, int a, int b, int c) {}
+	public void benchmark(CommandContext context, String str, int a, int b, int c) {}
 	
 	@CommandListener("stop")
-	public void stop(ICommandDispatcher dispatcher, CommandContext context, Command command) {
+	public void stop(CommandContext context) {
 		stop = true;
 	}
 	

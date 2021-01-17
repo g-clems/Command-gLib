@@ -3,10 +3,6 @@ package net.feedthemadness.glib.command.executor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import net.feedthemadness.glib.command.Command;
-import net.feedthemadness.glib.command.dispatcher.CommandContext;
-import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
-
 public class ExecutorReference {
 	
 	private final String id;
@@ -48,7 +44,7 @@ public class ExecutorReference {
 		return id;
 	}
 	
-	public void dispatch(ICommandDispatcher dispatcher, CommandContext context, Command command, int depth, Object[] args) {
+	public void dispatch(Object[] args) {
 		
 		try {
 			method.invoke(executor, args);

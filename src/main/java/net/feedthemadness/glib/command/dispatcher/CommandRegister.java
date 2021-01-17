@@ -6,18 +6,18 @@ import net.feedthemadness.glib.command.Command;
 
 public class CommandRegister {
 	
-	public static void registerCommand(Command command, ICommandDispatcher...commandExecutors) {
+	public static void registerCommand(Command command, ICommandDispatcher...commandDispatchers) {
 		
-		for (int i = 0 ; i < commandExecutors.length ; i++) {
-			CommandDispatcher executor = commandExecutors[i].getCommandDispatcher();
-			executor.addCommand(command);
+		for (int i = 0 ; i < commandDispatchers.length ; i++) {
+			CommandDispatcher dispatcher = commandDispatchers[i].getCommandDispatcher();
+			dispatcher.addCommand(command);
 		}
 	}
 	
-	public static void registerCommands(List<Command> commands, ICommandDispatcher...commandExecutors) {
+	public static void registerCommands(List<Command> commands, ICommandDispatcher...commandDispatchers) {
 		
 		commands.forEach((command) -> {
-			registerCommand(command, commandExecutors);
+			registerCommand(command, commandDispatchers);
 		});
 	}
 	

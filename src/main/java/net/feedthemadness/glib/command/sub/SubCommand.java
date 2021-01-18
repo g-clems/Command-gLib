@@ -45,11 +45,11 @@ public class SubCommand extends ACommandElement {
 	@Override
 	public boolean checkDispatch(CommandContext context, int depth) {
 		
-		if(!type.validate(context.getRawArg(depth))) {
+		if(!type.validate(context.getParsableArg(depth))) {
 			return false;
 		}
 		
-		context.setArgType(depth - 1, type);
+		context.setArg(depth - 1, type.parse(context.getParsableArg(depth)));
 		
 		return true;
 	}

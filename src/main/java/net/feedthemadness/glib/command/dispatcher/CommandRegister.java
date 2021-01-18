@@ -9,7 +9,7 @@ public class CommandRegister {
 	public static void registerCommand(Command command, ICommandDispatcher...commandDispatchers) {
 		
 		for (int i = 0 ; i < commandDispatchers.length ; i++) {
-			CommandDispatcher dispatcher = commandDispatchers[i].getCommandDispatcher();
+			ICommandDispatcher dispatcher = commandDispatchers[i];
 			dispatcher.addCommand(command);
 		}
 	}

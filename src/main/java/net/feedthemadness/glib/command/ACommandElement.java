@@ -63,7 +63,7 @@ public abstract class ACommandElement {
 		}
 		
 		depth++;
-		if(depth >= context.size()) return;
+		if(depth >= context.parsableArgsSize()) return;
 		
 		for(int i = 0 ; i < subElements.length ; i++) {
 			ACommandElement subElement = subElements[i];

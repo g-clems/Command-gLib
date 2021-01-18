@@ -3,7 +3,6 @@ package net.feedthemadness.glib.command.dispatcher;
 import java.util.Arrays;
 
 import net.feedthemadness.glib.command.Command;
-import net.feedthemadness.glib.command.sub.ICommandElementType;
 
 public class CommandContext implements Cloneable {
 	
@@ -11,14 +10,14 @@ public class CommandContext implements Cloneable {
 	private final Command command;
 	private final Object[] dispatchContext;
 	private final String[] parsableArgs;
-	private ICommandElementType[] args;
+	private Object[] args;
 	
 	public CommandContext(ICommandDispatcher dispatcher, Command command, Object[] dispatchContext, String parsableCommand) {
 		this.dispatcher = dispatcher;
 		this.command = command;
 		this.dispatchContext = dispatchContext;
 		this.parsableArgs = parsableCommand.split(" ");
-		this.args = new ICommandElementType[parsableArgs.length - 1];
+		this.args = new Object[0];
 	}
 	
 	protected CommandContext(CommandContext context) {
@@ -37,24 +36,35 @@ public class CommandContext implements Cloneable {
 		return command;
 	}
 	
-	public Object[] getDispatchContext() {
+	public int dispatchContextSize() {
+		return dispatchContext.length;
+	}
+	
+	public Object getDispatchContext(int index) {
 		return dispatchContext;
 	}
 	
-	public int size() {
+	public int parsableArgsSize() {
 		return parsableArgs.length;
 	}
 	
-	public String getRawArg(int index) {
+	public String getParsableArg(int index) {
 		return parsableArgs[index];
 	}
 	
-	public ICommandElementType getArgType(int index) {
+	public int argsSize() {
+		return args.length;
+	}
+	
+	public Object getArg(int index) {
 		return args[index];
 	}
 	
-	public void setArgType(int index, ICommandElementType arg) {
+	public void setArg(int index, Object arg) {
+		Object[] args = Arrays.copyOf(this.args, index + 1);
 		args[index] = arg;
+		
+		this.args = args;
 	}
 	
 	@Override

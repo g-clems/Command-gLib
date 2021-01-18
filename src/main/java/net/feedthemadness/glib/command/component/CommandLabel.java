@@ -49,13 +49,13 @@ public class CommandLabel {
 		return this;
 	}
 	
-	public boolean check(CommandContext context, int prefixLenght) {
-		String contextLabel = context.getRawArg(0).substring(prefixLenght);
+	public boolean compare(CommandContext context, int prefixLenght) {
+		String contextLabel = context.getParsableArg(0).substring(prefixLenght);
 		
-		return check(contextLabel);
+		return compare(contextLabel);
 	}
 	
-	public boolean check(String label) {
+	public boolean compare(String label) {
 		if(this.label.equalsIgnoreCase(label)) return true;
 		
 		for (int i = 0; i < aliases.length; i++) {

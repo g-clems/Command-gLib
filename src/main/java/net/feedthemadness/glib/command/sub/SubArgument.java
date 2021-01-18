@@ -10,8 +10,7 @@ public class SubArgument extends ACommandElement {
 	
 	protected ISubArgumentType type = new SubArgumentTypeString();
 	
-	public SubArgument() {
-	}
+	public SubArgument() {}
 	
 	@Override
 	public SubArgument addSubElement(ACommandElement subElement) {
@@ -37,11 +36,11 @@ public class SubArgument extends ACommandElement {
 	@Override
 	public boolean checkDispatch(CommandContext context, int depth) {
 		
-		if(!type.validate(context.getRawArg(depth))) {
+		if(!type.validate(context.getParsableArg(depth))) {
 			return false;
 		}
 		
-		context.setArgType(depth - 1, type);
+		context.setArg(depth - 1, type.parse(context.getParsableArg(depth)));
 		
 		return true;
 	}

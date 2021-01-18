@@ -2,6 +2,7 @@ package net.feedthemadness.glib.command.test;
 
 import java.util.Random;
 
+import net.feedthemadness.glib.command.Command;
 import net.feedthemadness.glib.command.Main;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.dispatcher.CommandDispatcher;
@@ -15,8 +16,13 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	private CommandDispatcher commandDispatcher = new CommandDispatcher();
 	
 	@Override
-	public CommandDispatcher getCommandDispatcher() {
-		return commandDispatcher;
+	public ICommandDispatcher addCommand(Command command) {
+		return commandDispatcher.addCommand(command);
+	}
+	
+	@Override
+	public void dispatch(ICommandDispatcher dispatcher, String parsableCommand, Object... dispatchContext) {
+		commandDispatcher.dispatch(dispatcher, parsableCommand, dispatchContext);
 	}
 	
 	private volatile boolean stop;

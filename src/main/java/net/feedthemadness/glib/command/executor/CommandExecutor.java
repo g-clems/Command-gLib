@@ -24,14 +24,14 @@ public class CommandExecutor {
 	
 	public void dispatch(CommandContext context, int depth) {
 		
-		Object[] args = new Object[1 + context.getDispatchContext().length + depth];
+		Object[] args = new Object[1 + context.dispatchContextSize() + context.argsSize()];
 		
 		args[0] = context.clone();
-		for(int i = 0 ; i < context.getDispatchContext().length ; i++) {
-			args[i + 1] = context.getDispatchContext()[i];
+		for(int i = 0 ; i < context.dispatchContextSize() ; i++) {
+			args[i + 1] = context.getDispatchContext(i);
 		}
-		for(int i = 0 ; i < depth ; i++) {
-			args[i + context.getDispatchContext().length + 1] = context.getArgType(i).parse(context.getRawArg(i + 1));
+		for(int i = 0 ; i < context.argsSize() ; i++) {
+			args[i + context.dispatchContextSize() + 1] = context.getArg(i);
 		}
 		
 		for(int i = 0 ; i < executorReferences.length ; i++) {
@@ -40,7 +40,7 @@ public class CommandExecutor {
 			if(!id.equals(executor.getId())) continue;
 			
 			if(!executor.validateType(args)) {
-				Main.getTerminal().error("Mismatch argument type during dispatch");
+				Main.getTerminal().warning("Mismatch argument type during dispatch");
 				//TODO proper error
 				continue;
 			}

@@ -89,8 +89,8 @@ public class Command extends ACommandElement {
 	
 	@Override
 	public boolean checkDispatch(CommandContext context, int depth) {
-		if(!prefix.validate(context)) return false;
-		if(!label.check(context, prefix.getPrefix().length())) return false;
+		if(!prefix.compare(context)) return false;
+		if(!label.compare(context, prefix.getPrefix().length())) return false;
 		return true;
 	}
 	

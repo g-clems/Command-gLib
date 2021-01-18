@@ -16,7 +16,7 @@ public class SubCommandTypeLabel extends CommandLabel implements ISubCommandType
 	
 	@Override
 	public boolean validate(String parsableArgument) {
-		return check(parsableArgument);
+		return compare(parsableArgument);
 	}
 	
 	@Override

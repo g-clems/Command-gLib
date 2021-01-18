@@ -41,7 +41,7 @@ public class CommandContext implements Cloneable {
 	}
 	
 	public Object getDispatchContext(int index) {
-		return dispatchContext;
+		return dispatchContext[index];
 	}
 	
 	public int parsableArgsSize() {

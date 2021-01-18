@@ -1,6 +1,6 @@
 package net.feedthemadness.glib.command.sub.argument;
 
-public class SubArgumentElementTypeInt extends ASubArgumentElementType {
+public class SubArgumentTypeInt extends ASubArgumentType {
 	
 	@Override
 	public boolean validate(String parsableArgument) {
@@ -13,8 +13,8 @@ public class SubArgumentElementTypeInt extends ASubArgumentElementType {
 	}
 	
 	@Override
-	public Object parse(String str) {
-		return Integer.parseInt(str);
+	public Object parse(String parsableArgument) {
+		return Integer.parseInt(parsableArgument);
 	}
 	
 }

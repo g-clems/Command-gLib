@@ -2,17 +2,15 @@ package net.feedthemadness.glib.command.sub;
 
 import net.feedthemadness.glib.command.ACommandElement;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
-import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
-import net.feedthemadness.glib.command.sub.argument.ISubArgumentElementType;
-import net.feedthemadness.glib.command.sub.argument.SubArgumentElementTypeString;
+import net.feedthemadness.glib.command.sub.argument.ISubArgumentType;
+import net.feedthemadness.glib.command.sub.argument.SubArgumentTypeString;
 
 public class SubArgument extends ACommandElement {
 	
-	protected ISubArgumentElementType type = new SubArgumentElementTypeString();
+	protected ISubArgumentType type = new SubArgumentTypeString();
 	
-	public SubArgument() {
-	}
+	public SubArgument() {}
 	
 	@Override
 	public SubArgument addSubElement(ACommandElement subElement) {
@@ -26,24 +24,25 @@ public class SubArgument extends ACommandElement {
 		return this;
 	}
 	
-	public ISubArgumentElementType getType() {
+	public ISubArgumentType getType() {
 		return type;
 	}
 	
-	public SubArgument setType(ISubArgumentElementType type) {
+	public SubArgument setType(ISubArgumentType type) {
 		this.type = type;
 		return this;
 	}
 	
 	@Override
-	public boolean checkDispatch(ICommandDispatcher dispatcher, CommandContext context, int depth) {
+	public boolean checkDispatch(CommandContext context, int depth) {
 		
-		if(!type.validate(context.getRawArg(depth))) {
+		if(!type.validate(context.getParsableArg(depth))) {
 			return false;
 		}
 		
-		context.setArgType(depth - 1, type);
+		context.setArg(depth - 1, type.parse(context.getParsableArg(depth)));
 		
 		return true;
 	}
+	
 }

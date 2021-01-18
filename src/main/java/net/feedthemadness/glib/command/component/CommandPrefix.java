@@ -22,8 +22,12 @@ public class CommandPrefix {
 		return this;
 	}
 	
-	public boolean validate(CommandContext context) {
-		return prefix.equals(context.getRawArg(0).substring(0, prefix.length()));
+	public boolean compare(CommandContext context) {
+		return compare(context.getParsableArg(0).substring(0, prefix.length()));
 	}
-
+	
+	public boolean compare(String prefix) {
+		return prefix.equals(prefix);
+	}
+	
 }

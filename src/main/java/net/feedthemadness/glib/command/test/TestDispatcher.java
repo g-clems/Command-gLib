@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.feedthemadness.glib.command.Command;
 import net.feedthemadness.glib.command.Main;
+import net.feedthemadness.glib.command.component.CommandLabel;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.dispatcher.CommandDispatcher;
 import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
@@ -81,7 +82,7 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	public void startListener() {
 		while(!stop) {
 			String str = Main.getTerminal().requestString("");
-			commandDispatcher.dispatch(this, str);
+			commandDispatcher.dispatch(this, str, new CommandLabel("test"));
 		}
 	}
 	

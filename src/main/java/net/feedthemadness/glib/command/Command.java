@@ -77,8 +77,14 @@ public class Command extends ACommandElement {
 	}
 	
 	@Override
-	public Command addExecutor(ICommandExecutor listener, String id) {
-		super.addExecutor(listener, id);
+	public Command addExecutor(ICommandExecutor executor, String id) {
+		super.addExecutor(executor, id);
+		return this;
+	}
+	
+	@Override
+	public Command addUsageExecutor(ICommandExecutor executor, String id) {
+		super.addUsageExecutor(executor, id);
 		return this;
 	}
 	

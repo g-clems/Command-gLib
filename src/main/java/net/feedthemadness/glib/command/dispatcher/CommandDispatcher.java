@@ -22,7 +22,7 @@ public class CommandDispatcher implements ICommandDispatcher {
 	@Override
 	public void dispatch(ICommandDispatcher dispatcher, String parsableCommand, Object... dispatchContext) {
 		
-		for (int i = 0; i < commands.length; i++) {
+		for(int i = 0 ; i < commands.length ; i++) {
 			Command command = commands[i];
 			CommandContext context = new CommandContext(dispatcher, command, dispatchContext, parsableCommand);
 			

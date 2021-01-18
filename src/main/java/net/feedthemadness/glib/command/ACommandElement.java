@@ -6,12 +6,15 @@ import java.util.Arrays;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.executor.CommandExecutor;
 import net.feedthemadness.glib.command.executor.CommandListener;
+import net.feedthemadness.glib.command.executor.CommandUsageListener;
 import net.feedthemadness.glib.command.executor.ExecutorReference;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
 
 public abstract class ACommandElement {
 	
 	protected ACommandElement[] subElements = new ACommandElement[0];
+	
+	protected CommandExecutor[] usageExecutors = new CommandExecutor[0];
 	
 	protected CommandExecutor[] commandExecutors = new CommandExecutor[0];
 	
@@ -54,6 +57,42 @@ public abstract class ACommandElement {
 		return this;
 	}
 	
+	public ACommandElement addUsageExecutor(ICommandExecutor executor, String id) {
+		Method[] methods = executor.getClass().getDeclaredMethods();
+		CommandExecutor commandExecutor = new CommandExecutor(id);
+		
+		boolean noListenerMethod = true;
+		
+		for(int i = 0; i < methods.length; i++) {
+			Method method = methods[i];
+			
+			if(!method.isAnnotationPresent(CommandUsageListener.class)) {
+				continue;
+			}
+			
+			CommandUsageListener annotation = method.getAnnotationsByType(CommandUsageListener.class)[0];
+			
+			if(!id.equals(annotation.value())) {
+				continue;
+			}
+			
+			if(noListenerMethod) noListenerMethod = false;
+			
+			commandExecutor.addExecutor(new ExecutorReference(executor, method, annotation.value()));
+		}
+		
+		if(noListenerMethod) {
+			Main.getTerminal().warning("No listener method");
+			//TODO proper error
+		}
+
+		CommandExecutor[] usageExecutors = Arrays.copyOf(this.commandExecutors, this.commandExecutors.length + 1);
+		usageExecutors[usageExecutors.length - 1] = commandExecutor;
+		
+		this.usageExecutors = usageExecutors;
+		return this;
+	}
+	
 	protected void dispatch(CommandContext context, int depth) {
 		
 		for(int j = 0 ; j < commandExecutors.length ; j++) {
@@ -65,6 +104,8 @@ public abstract class ACommandElement {
 		depth++;
 		if(depth >= context.parsableArgsSize()) return;
 		
+		
+		
 		for(int i = 0 ; i < subElements.length ; i++) {
 			ACommandElement subElement = subElements[i];
 			
@@ -75,5 +116,9 @@ public abstract class ACommandElement {
 	}
 	
 	public abstract boolean checkDispatch(CommandContext context, int depth);
+	
+	protected void usageDispatch() {
+		
+	}
 	
 }

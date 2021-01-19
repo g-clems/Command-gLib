@@ -23,6 +23,8 @@ public class CommandPrefix {
 	}
 	
 	public boolean compare(CommandContext context) {
+		if(context.getParsableArg(0).length() < prefix.length()) return false;
+		
 		return compare(context.getParsableArg(0).substring(0, prefix.length()));
 	}
 	

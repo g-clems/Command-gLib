@@ -40,7 +40,6 @@ public class CommandExecutor {
 			if(!id.equals(executor.getId())) continue;
 			
 			if(!executor.validateType(args)) {
-				System.out.println(context.getDispatchContext(0));
 				Main.getTerminal().severe("Mismatch argument type during dispatch");
 				//TODO proper error
 				continue;

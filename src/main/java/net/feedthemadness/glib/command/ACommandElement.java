@@ -95,8 +95,8 @@ public abstract class ACommandElement {
 	
 	protected void dispatch(CommandContext context, int depth) {
 		
-		for(int j = 0 ; j < commandExecutors.length ; j++) {
-			CommandExecutor commandExecutor = commandExecutors[j];
+		for(int i = 0 ; i < commandExecutors.length ; i++) {
+			CommandExecutor commandExecutor = commandExecutors[i];
 			
 			commandExecutor.dispatch(context, depth);
 		}
@@ -104,14 +104,26 @@ public abstract class ACommandElement {
 		depth++;
 		if(depth >= context.parsableArgsSize()) return;
 		
-		
+		boolean noDispatch = subElements.length > 0;
 		
 		for(int i = 0 ; i < subElements.length ; i++) {
 			ACommandElement subElement = subElements[i];
 			
-			if(!subElement.checkDispatch(context, depth)) continue;
+			if(!subElement.checkDispatch(context, depth)) {
+				continue;
+			}
+			
+			if(noDispatch) noDispatch = false;
 			
 			subElement.dispatch(context, depth);
+		}
+		
+		if(noDispatch) {
+			for(int i = 0 ; i < usageExecutors.length ; i++) {
+				CommandExecutor commandExecutor = usageExecutors[i];
+				
+				commandExecutor.dispatch(context, depth);
+			}
 		}
 	}
 	

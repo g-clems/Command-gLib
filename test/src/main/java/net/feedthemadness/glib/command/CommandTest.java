@@ -1,4 +1,4 @@
-package net.feedthemadness.glib.command.test;
+package net.feedthemadness.glib.command;
 
 import net.feedthemadness.glib.command.Command;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;

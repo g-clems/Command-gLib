@@ -1,4 +1,4 @@
-package net.feedthemadness.glib.command.test.privateroom;
+package net.feedthemadness.glib.command.privateroom;
 
 import net.feedthemadness.glib.command.Command;
 import net.feedthemadness.glib.command.dispatcher.CommandRegister;

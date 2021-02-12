@@ -1,4 +1,4 @@
-package net.feedthemadness.glib.command.test;
+package net.feedthemadness.glib.command;
 
 import java.util.Random;
 
@@ -9,7 +9,7 @@ import net.feedthemadness.glib.command.dispatcher.CommandDispatcher;
 import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 import net.feedthemadness.glib.command.executor.CommandListener;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
-import net.feedthemadness.glib.command.test.utils.Benchmark;
+import net.feedthemadness.glib.command.utils.Benchmark;
 
 public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	

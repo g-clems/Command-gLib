@@ -8,3 +8,4 @@
  */
 
 rootProject.name = 'CommandGLib'
+include ":test"

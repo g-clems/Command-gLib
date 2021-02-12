@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+dependencies {
+    implementation project(':')
+}
+
+run {
+    mainClassName = 'net.feedthemadness.glib.command.Main'
+    standardInput = System.in
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'net.feedthemadness.glib.command.Main'
+    }
+}

@@ -1,4 +1,4 @@
-package net.feedthemadness.glib.command.test.privateroom;
+package net.feedthemadness.glib.command.privateroom;
 
 import net.feedthemadness.glib.command.sub.argument.ISubArgumentType;
 
@@ -11,7 +11,7 @@ public class CommandTypeIdMention implements ISubArgumentType {
 	
 	@Override
 	public Object parse(String parsableArgument) {
-		return parse(parsableArgument);
+		return parsableArgument;
 	}
 	
 }

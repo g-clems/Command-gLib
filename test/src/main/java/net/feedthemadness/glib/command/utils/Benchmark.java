@@ -1,4 +1,4 @@
-package net.feedthemadness.glib.command.test.utils;
+package net.feedthemadness.glib.command.utils;
 
 public class Benchmark {
 	

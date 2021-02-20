@@ -1,20 +1,16 @@
 package net.feedthemadness.glib.command;
 
+import net.feedthemadness.glib.command.dispatcher.CommandContext;
+import net.feedthemadness.glib.command.executor.*;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
-
-import net.feedthemadness.glib.command.dispatcher.CommandContext;
-import net.feedthemadness.glib.command.executor.CommandExecutor;
-import net.feedthemadness.glib.command.executor.CommandListener;
-import net.feedthemadness.glib.command.executor.CommandUsageListener;
-import net.feedthemadness.glib.command.executor.ExecutorReference;
-import net.feedthemadness.glib.command.executor.ICommandExecutor;
 
 public abstract class ACommandElement {
 	
 	protected ACommandElement[] subElements = new ACommandElement[0];
 	
-	protected CommandExecutor[] usageExecutors = new CommandExecutor[0];
+	protected CommandUsageExecutor[] usageExecutors = new CommandUsageExecutor[0];
 	
 	protected CommandExecutor[] commandExecutors = new CommandExecutor[0];
 	
@@ -59,7 +55,7 @@ public abstract class ACommandElement {
 	
 	public ACommandElement addUsageExecutor(ICommandExecutor executor, String id) {
 		Method[] methods = executor.getClass().getDeclaredMethods();
-		CommandExecutor commandExecutor = new CommandExecutor(id);
+		CommandUsageExecutor usageExecutor = new CommandUsageExecutor(id);
 		
 		boolean noListenerMethod = true;
 		
@@ -78,7 +74,7 @@ public abstract class ACommandElement {
 			
 			if(noListenerMethod) noListenerMethod = false;
 			
-			commandExecutor.addExecutor(new ExecutorReference(executor, method, annotation.value()));
+			usageExecutor.addExecutor(new ExecutorReference(executor, method, annotation.value()));
 		}
 		
 		if(noListenerMethod) {
@@ -86,25 +82,31 @@ public abstract class ACommandElement {
 			//TODO proper error
 		}
 
-		CommandExecutor[] usageExecutors = Arrays.copyOf(this.commandExecutors, this.commandExecutors.length + 1);
-		usageExecutors[usageExecutors.length - 1] = commandExecutor;
+		CommandUsageExecutor[] usageExecutors = Arrays.copyOf(this.usageExecutors, this.usageExecutors.length + 1);
+		usageExecutors[usageExecutors.length - 1] = usageExecutor;
 		
 		this.usageExecutors = usageExecutors;
 		return this;
 	}
 	
-	protected void dispatch(CommandContext context, int depth) {
+	protected boolean dispatch(CommandContext context, int depth) {
+		
+		boolean noExecution = commandExecutors.length == 0;
 		
 		for(int i = 0 ; i < commandExecutors.length ; i++) {
 			CommandExecutor commandExecutor = commandExecutors[i];
 			
-			commandExecutor.dispatch(context, depth);
+			commandExecutor.dispatch(context);
 		}
 		
 		depth++;
-		if(depth >= context.parsableArgsSize()) return;
-		
-		boolean noDispatch = subElements.length > 0;
+		if(depth >= context.parsableArgsSize()) {
+			if(noExecution) {
+				usageDispatch(context);
+			}
+			return true;
+		}
+		boolean noDispatch = true;
 		
 		for(int i = 0 ; i < subElements.length ; i++) {
 			ACommandElement subElement = subElements[i];
@@ -115,22 +117,35 @@ public abstract class ACommandElement {
 			
 			if(noDispatch) noDispatch = false;
 			
-			subElement.dispatch(context, depth);
+			if(depth < context.parsableArgsSize()) subElement.dispatch(context, depth);
 		}
 		
 		if(noDispatch) {
-			for(int i = 0 ; i < usageExecutors.length ; i++) {
-				CommandExecutor commandExecutor = usageExecutors[i];
-				
-				commandExecutor.dispatch(context, depth);
-			}
+			usageDispatch(context);
 		}
+		
+		return true;
 	}
 	
 	public abstract boolean checkDispatch(CommandContext context, int depth);
 	
-	protected void usageDispatch() {
+	protected void usageDispatch(CommandContext context) {
 		
+		if(usageExecutors.length == 0) {
+			CommandExecutor[] commandUsageExecutors = context.getCommand().usageExecutors;
+			
+			for (int i = 0; i < commandUsageExecutors.length; i++) {
+				CommandExecutor usageExecutor = commandUsageExecutors[i];
+				
+				if(usageExecutor.getId().equals("default")) usageExecutor.dispatch(context);
+			}
+		}
+		
+		for(int i = 0 ; i < usageExecutors.length ; i++) {
+			CommandExecutor usageExecutor = usageExecutors[i];
+			
+			usageExecutor.dispatch(context);
+		}
 	}
 	
 }

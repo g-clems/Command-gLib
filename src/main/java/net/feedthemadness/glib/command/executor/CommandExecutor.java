@@ -7,11 +7,15 @@ import net.feedthemadness.glib.command.dispatcher.CommandContext;
 
 public class CommandExecutor {
 	
-	private final String id;
-	private ExecutorReference[] executorReferences = new ExecutorReference[0];
+	protected final String id;
+	protected ExecutorReference[] executorReferences = new ExecutorReference[0];
 	
 	public CommandExecutor(String id) {
 		this.id = id;
+	}
+	
+	public String getId() {
+		return id;
 	}
 	
 	public CommandExecutor addExecutor(ExecutorReference executorReference) {
@@ -22,7 +26,7 @@ public class CommandExecutor {
 		return this;
 	}
 	
-	public void dispatch(CommandContext context, int depth) {
+	public void dispatch(CommandContext context) {
 		
 		Object[] args = new Object[1 + context.dispatchContextSize() + context.argsSize()];
 		
@@ -33,18 +37,18 @@ public class CommandExecutor {
 		for(int i = 0 ; i < context.argsSize() ; i++) {
 			args[i + context.dispatchContextSize() + 1] = context.getArg(i);
 		}
-		
+
 		for(int i = 0 ; i < executorReferences.length ; i++) {
 			ExecutorReference executor = executorReferences[i];
-			
+
 			if(!id.equals(executor.getId())) continue;
-			
+
 			if(!executor.validateType(args)) {
 				Main.getTerminal().severe("Mismatch argument type during dispatch");
 				//TODO proper error
 				continue;
 			}
-			
+
 			executor.dispatch(args);
 		}
 	}

@@ -11,7 +11,7 @@ public class CommandTypeIdMention implements ISubArgumentType {
 	
 	@Override
 	public Object parse(String parsableArgument) {
-		return parse(parsableArgument);
+		return parsableArgument;
 	}
 	
 }

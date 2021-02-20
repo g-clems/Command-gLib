@@ -23,14 +23,13 @@ public class SubArgumentText extends ACommandElement {
 	}
 	
 	@Override
-	protected void dispatch(CommandContext context, int depth) {
+	protected boolean dispatch(CommandContext context, int depth) {
 		depth = context.parsableArgsSize() - 1;
-		super.dispatch(context, depth);
+		return super.dispatch(context, depth);
 	}
 	
 	@Override
 	public boolean checkDispatch(CommandContext context, int depth) {
-		
 		context.setArg(depth - 1, parseArgs(context, depth));
 		
 		return true;

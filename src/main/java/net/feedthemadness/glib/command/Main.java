@@ -10,6 +10,8 @@ public class Main {
 		return tw;
 	}
 
-	public static void main(String[] args) {}
+	public static void main(String[] args) {
+	
+	}
 
 }

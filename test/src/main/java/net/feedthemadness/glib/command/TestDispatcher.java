@@ -1,15 +1,13 @@
 package net.feedthemadness.glib.command;
 
-import java.util.Random;
-
-import net.feedthemadness.glib.command.Command;
-import net.feedthemadness.glib.command.Main;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.dispatcher.CommandDispatcher;
 import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 import net.feedthemadness.glib.command.executor.CommandListener;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
 import net.feedthemadness.glib.command.utils.Benchmark;
+
+import java.util.Random;
 
 public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	
@@ -18,6 +16,11 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	@Override
 	public ICommandDispatcher addCommand(Command command) {
 		return commandDispatcher.addCommand(command);
+	}
+	
+	@Override
+	public CommandDispatcher addUsageExecutor(ICommandExecutor executor, String id) {
+		return commandDispatcher.addUsageExecutor(executor, id);
 	}
 	
 	@Override
@@ -38,7 +41,7 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 		Main.getTerminal().log("Init tests");
 		
 		String[] labels = {"benchmark", "benchmark0", "benchmark1", "benchmark2", "benchmark3", "benchmark4", "benchmark5"};
-		String[] args1 = {"ouqzbd", "yfsefgs", "oiqzhouqhf", "qugzfhihqef", "quzhuqozhfuses", "isehfs", "sjefn", "sienfsnefons", "jsbef"};
+		String[] args1 = {"test1", "test2", "test3", "test4", "test5", "test6", "test7", "test8", "test9"};
 		
 		String[] parsableCommands = new String[tests];
 		
@@ -63,7 +66,7 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 		
 		for(int i = 0; i < parsableCommands.length ; i++) {
 			commandDispatcher.dispatch(this, parsableCommands[i]);
-			if((i % 1000) + 1 == 0) benchmark.update();
+			if((i - 1 % 1000) == 0) benchmark.update();
 		}
 		
 		globalBenchmark.update();

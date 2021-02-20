@@ -1,25 +1,76 @@
 plugins {
     id 'java'
     id 'application'
+    id 'maven-publish'
 }
 
-group 'net.feedthemadness'
+group 'net.feedthemadness.glib'
+def artifactPublishedId = 'sql'
 version '0.0.1-SNAPSHOT'
 
-repositories {
-	mavenCentral()
+allprojects {
+
+    repositories {
+        mavenCentral()
+    }
 }
 
-dependencies {
+publishing {
+
+    repositories {
+
+        maven {
+            name 'snapshots'
+            url 'https://maven.ftmnet.com/snapshots/'
+            credentials {
+                username ftmnet_authUser
+                password ftmnet_authToken
+            }
+        }
+
+        maven {
+            name 'releases'
+            url 'https://maven.ftmnet.com/releases/'
+            credentials {
+                username ftmnet_authUser
+                password ftmnet_authToken
+            }
+        }
+    }
+
+    publications {
+        jar(MavenPublication) {
+            groupId group
+            artifactId artifactPublishedId
+            version version
+
+            artifact("${buildDir}/libs/${rootProject.name}-${version}.jar")
+        }
+    }
 }
 
-mainClassName = 'net.feedthemadness.glib.command.Main'
+task publishToSnapshots(type: GradleBuild) {
+    tasks = ['clean', 'shadowJar', 'publishAllPublicationsToSnapshotsRepository']
+
+    description "publish ${artifactPublishedId}-${version}"
+    group 'ftmnet publishing'
+}
+
+task publishToReleases(type: GradleBuild) {
+    tasks = ['clean', 'shadowJar', 'publishAllPublicationsToReleasesRepository']
+
+    description "publish ${artifactPublishedId}-${version}"
+    group 'ftmnet publishing'
+}
+
 
 run {
-	standardInput = System.in
+    mainClassName = 'net.feedthemadness.glib.command.Main'
+    standardInput = System.in
 }
 
 compileJava.options.encoding = 'UTF-8'
+targetCompatibility = sourceCompatibility = '1.8'
 
 jar {
     manifest {

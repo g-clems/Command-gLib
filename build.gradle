@@ -1,11 +1,17 @@
 plugins {
     id 'java'
     id 'application'
+    id "com.github.johnrengelman.shadow" version "6.1.0"
     id 'maven-publish'
 }
 
+shadowJar {
+    project.configurations.implementation.canBeResolved(true)
+    configurations = [project.configurations.implementation]
+}
+
 group 'net.feedthemadness.glib'
-def artifactPublishedId = 'sql'
+def artifactPublishedId = 'command'
 version '0.0.1-SNAPSHOT'
 
 allprojects {
@@ -44,7 +50,7 @@ publishing {
             artifactId artifactPublishedId
             version version
 
-            artifact("${buildDir}/libs/${rootProject.name}-${version}.jar")
+            artifact("${buildDir}/libs/${rootProject.name}-${version}-all.jar")
         }
     }
 }

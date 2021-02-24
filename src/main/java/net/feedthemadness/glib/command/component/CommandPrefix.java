@@ -23,11 +23,11 @@ public class CommandPrefix {
 	}
 	
 	public boolean compare(CommandContext context) {
-		return compare(context.getParsableArg(0).substring(0, prefix.length()));
+		return compare(context.getParsableArgument(0).substring(0, prefix.length()));
 	}
 	
 	public boolean compare(String prefix) {
-		return prefix.equals(prefix);
+		return this.prefix.equals(prefix);
 	}
 	
 }

@@ -4,12 +4,7 @@ public class SubArgumentTypeString extends ASubArgumentType {
 	
 	@Override
 	public boolean validate(String parsableArgument) {
-		try {
-			Double.parseDouble(parsableArgument);
-		} catch(NumberFormatException e) {
-			return true;
-		}
-		return false;
+		return true;
 	}
 	
 	@Override

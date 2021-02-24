@@ -70,7 +70,7 @@ public class CommandDispatcher implements ICommandDispatcher {
 		
 		for(int i = 0; i < commands.length; i++) {
 			Command command = commands[i];
-			CommandContext context = new CommandContext(dispatcher, command, dispatchContext, parsableCommand);
+			CommandContext context = new CommandContext(dispatcher, command, parsableCommand);
 			
 			boolean dispatched = command.dispatch(context);
 			if(dispatched && noDispatch) noDispatch = false;
@@ -79,7 +79,7 @@ public class CommandDispatcher implements ICommandDispatcher {
 		if(noDispatch) {
 			
 			for(int i = 0; i < usageExecutors.length; i++) {
-				usageExecutors[i].dispatch(new CommandContext(dispatcher, null, dispatchContext, parsableCommand));
+				usageExecutors[i].dispatch(new CommandContext(dispatcher, null, parsableCommand));
 			}
 		}
 	}

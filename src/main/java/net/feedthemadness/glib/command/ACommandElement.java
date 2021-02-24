@@ -11,13 +11,12 @@ public abstract class ACommandElement {
 	protected ACommandElement[] subElements = new ACommandElement[0];
 	
 	protected CommandUsageExecutor[] usageExecutors = new CommandUsageExecutor[0];
-	
 	protected CommandExecutor[] commandExecutors = new CommandExecutor[0];
 	
 	public ACommandElement addSubElement(ACommandElement subElement) {
 		ACommandElement[] subCommands = Arrays.copyOf(this.subElements, this.subElements.length + 1);
 		subCommands[subCommands.length - 1] = subElement;
-
+		
 		this.subElements = subCommands;
 		return this;
 	}
@@ -28,7 +27,7 @@ public abstract class ACommandElement {
 		
 		boolean noListenerMethod = true;
 		
-		for(int i = 0; i < methods.length; i++) {
+		for(int i = 0 ; i < methods.length ; i++) {
 			Method method = methods[i];
 			
 			if(!method.isAnnotationPresent(CommandListener.class)) {
@@ -41,11 +40,12 @@ public abstract class ACommandElement {
 				continue;
 			}
 			
+			//TODO proper error
 			if(noListenerMethod) noListenerMethod = false;
 			
 			commandExecutor.addExecutor(new ExecutorReference(executor, method, annotation.value()));
 		}
-
+		
 		CommandExecutor[] commandExecutors = Arrays.copyOf(this.commandExecutors, this.commandExecutors.length + 1);
 		commandExecutors[commandExecutors.length - 1] = commandExecutor;
 		
@@ -59,7 +59,7 @@ public abstract class ACommandElement {
 		
 		boolean noListenerMethod = true;
 		
-		for(int i = 0; i < methods.length; i++) {
+		for(int i = 0 ; i < methods.length ; i++) {
 			Method method = methods[i];
 			
 			if(!method.isAnnotationPresent(CommandUsageListener.class)) {
@@ -81,7 +81,7 @@ public abstract class ACommandElement {
 			Main.getTerminal().warning("No listener method");
 			//TODO proper error
 		}
-
+		
 		CommandUsageExecutor[] usageExecutors = Arrays.copyOf(this.usageExecutors, this.usageExecutors.length + 1);
 		usageExecutors[usageExecutors.length - 1] = usageExecutor;
 		
@@ -100,7 +100,7 @@ public abstract class ACommandElement {
 		}
 		
 		depth++;
-		if(depth >= context.parsableArgsSize()) {
+		if(depth >= context.parsableArgumentsSize()) {
 			if(noExecution) {
 				usageDispatch(context);
 			}
@@ -117,7 +117,7 @@ public abstract class ACommandElement {
 			
 			if(noDispatch) noDispatch = false;
 			
-			if(depth < context.parsableArgsSize()) subElement.dispatch(context, depth);
+			if(depth < context.parsableArgumentsSize()) subElement.dispatch(context, depth);
 		}
 		
 		if(noDispatch) {
@@ -132,17 +132,17 @@ public abstract class ACommandElement {
 	protected void usageDispatch(CommandContext context) {
 		
 		if(usageExecutors.length == 0) {
-			CommandExecutor[] commandUsageExecutors = context.getCommand().usageExecutors;
+			CommandUsageExecutor[] commandUsageExecutors = context.getCommand().usageExecutors;
 			
-			for (int i = 0; i < commandUsageExecutors.length; i++) {
-				CommandExecutor usageExecutor = commandUsageExecutors[i];
+			for(int i = 0 ; i < commandUsageExecutors.length ; i++) {
+				CommandUsageExecutor usageExecutor = commandUsageExecutors[i];
 				
 				if(usageExecutor.getId().equals("default")) usageExecutor.dispatch(context);
 			}
 		}
 		
 		for(int i = 0 ; i < usageExecutors.length ; i++) {
-			CommandExecutor usageExecutor = usageExecutors[i];
+			CommandUsageExecutor usageExecutor = usageExecutors[i];
 			
 			usageExecutor.dispatch(context);
 		}

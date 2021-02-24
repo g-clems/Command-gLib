@@ -27,23 +27,23 @@ public class Main {
 		CommandRegister.registerCommand(
 				new Command()
 				.setPrefix("/")
-				.setLabelAndAliases("benchmark", "benchmark0", "benchmark1", "benchmark2", "benchmark3", "benchmark4", "benchmark5")
+				.setLabelAndAliases("benchmark", "bm", "benchmark0", "benchmark1", "benchmark2", "benchmark3", "benchmark4", "benchmark5")
 				.addSubElement(
-						new SubArgument()
+						new SubArgument("iterations")
 						.setType(new SubArgumentTypeInt())
 						.addExecutor(dispatcher, "perform benchmark")
 						)
 				.addSubElement(
-						new SubArgument()
+						new SubArgument("str")
 						.setType(new SubArgumentTypeString())
 						.addSubElement(
-								new SubArgument()
+								new SubArgument("a")
 								.setType(new SubArgumentTypeInt())
 								.addSubElement(
-										new SubArgument()
+										new SubArgument("b")
 										.setType(new SubArgumentTypeInt())
 										.addSubElement(
-												new SubArgument()
+												new SubArgument("c")
 												.setType(new SubArgumentTypeInt())
 												.addExecutor(dispatcher, "benchmark")
 												)

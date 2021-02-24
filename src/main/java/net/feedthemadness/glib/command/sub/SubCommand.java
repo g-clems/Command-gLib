@@ -7,17 +7,21 @@ import net.feedthemadness.glib.command.sub.command.ISubCommandType;
 import net.feedthemadness.glib.command.sub.command.SubCommandTypeLabel;
 import net.feedthemadness.glib.command.sub.command.SubCommandTypeString;
 
-public class SubCommand extends ACommandElement {
+public class SubCommand extends ASubCommandElement {
 	
 	protected ISubCommandType type = new SubCommandTypeString();
 	
-	public SubCommand() {}
+	public SubCommand(String name) {
+		super(name);
+	}
 	
-	public SubCommand(String label) {
+	public SubCommand(String name, String label) {
+		super(name);
 		this.type = new SubCommandTypeLabel(label);
 	}
 	
-	public SubCommand(String label, String... aliases) {
+	public SubCommand(String name, String label, String... aliases) {
+		super(name);
 		this.type = new SubCommandTypeLabel(label, aliases);
 	}
 	
@@ -45,13 +49,11 @@ public class SubCommand extends ACommandElement {
 	@Override
 	public boolean checkDispatch(CommandContext context, int depth) {
 		
-		if(!type.validate(context.getParsableArg(depth))) {
-			return false;
-		}
+		if(!type.validate(context.getParsableArgument(depth))) return false;
 		
-		context.setArg(depth - 1, type.parse(context.getParsableArg(depth)));
+		context.putArgument(name, type.parse(context.getParsableArgument(depth)));
 		
 		return true;
 	}
-
+	
 }

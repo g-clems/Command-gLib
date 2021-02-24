@@ -5,6 +5,8 @@ import net.feedthemadness.glib.command.dispatcher.CommandDispatcher;
 import net.feedthemadness.glib.command.dispatcher.ICommandDispatcher;
 import net.feedthemadness.glib.command.executor.CommandListener;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
+import net.feedthemadness.glib.command.executor.listener.CmdArg;
+import net.feedthemadness.glib.command.executor.listener.CmdContext;
 import net.feedthemadness.glib.command.utils.Benchmark;
 
 import java.util.Random;
@@ -89,15 +91,15 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	}
 	
 	@CommandListener("perform benchmark")
-	public void performBenchmark(CommandContext context, int tests) {
+	public void performBenchmark(@CmdContext CommandContext context, @CmdArg("iterations") int tests) {
 		performBenchmark(tests);
 	}
 	
 	@CommandListener("benchmark")
-	public void benchmark(CommandContext context, String str, int a, int b, int c) {}
+	public void benchmark(@CmdContext CommandContext context, @CmdArg("str") String str, @CmdArg("a") int a, @CmdArg("b") int b, @CmdArg("c") int c) {}
 	
 	@CommandListener("stop")
-	public void stop(CommandContext context) {
+	public void stop(@CmdContext CommandContext context) {
 		stop = true;
 	}
 	

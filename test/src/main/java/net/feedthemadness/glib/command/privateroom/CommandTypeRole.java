@@ -11,7 +11,7 @@ public class CommandTypeRole implements ISubArgumentType {
 	
 	@Override
 	public Object parse(String parsableArgument) {
-		return parse(parsableArgument);
+		return parsableArgument;
 	}
 	
 }

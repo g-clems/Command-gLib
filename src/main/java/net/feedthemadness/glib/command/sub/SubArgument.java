@@ -6,11 +6,13 @@ import net.feedthemadness.glib.command.executor.ICommandExecutor;
 import net.feedthemadness.glib.command.sub.argument.ISubArgumentType;
 import net.feedthemadness.glib.command.sub.argument.SubArgumentTypeString;
 
-public class SubArgument extends ACommandElement {
+public class SubArgument extends ASubCommandElement {
 	
 	protected ISubArgumentType type = new SubArgumentTypeString();
 	
-	public SubArgument() {}
+	public SubArgument(String name) {
+		super(name);
+	}
 	
 	@Override
 	public SubArgument addSubElement(ACommandElement subElement) {
@@ -36,11 +38,11 @@ public class SubArgument extends ACommandElement {
 	@Override
 	public boolean checkDispatch(CommandContext context, int depth) {
 		
-		if(!type.validate(context.getParsableArg(depth))) {
+		if(!type.validate(context.getParsableArgument(depth))) {
 			return false;
 		}
 		
-		context.setArg(depth - 1, type.parse(context.getParsableArg(depth)));
+		context.putArgument(name, type.parse(context.getParsableArgument(depth)));
 		
 		return true;
 	}

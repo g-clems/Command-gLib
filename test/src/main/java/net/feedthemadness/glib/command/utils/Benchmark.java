@@ -14,8 +14,8 @@ public class Benchmark {
 		this(100);
 	}
 	
-	public Benchmark(int sampleAmmount) {
-		deltas = new long[sampleAmmount];
+	public Benchmark(int sampleAmount) {
+		deltas = new long[sampleAmount];
 		lastTimestamp = System.currentTimeMillis();
 	}
 	
@@ -29,13 +29,13 @@ public class Benchmark {
 	
 	public double getAverageDelta() {
 		double average = 0;
-		int sampleAmmount = deltas.length;
+		int sampleAmount = deltas.length;
 		
 		for(int i = 0 ; i < deltas.length ; i++) {
-			if(deltas[i] == 0) sampleAmmount--;
+			if(deltas[i] == 0) sampleAmount--;
 			average += deltas[i];
 		}
-		average /= sampleAmmount;
+		average /= sampleAmount;
 		
 		return average;
 	}
@@ -43,7 +43,7 @@ public class Benchmark {
 	public double getMedianDelta() {
 		double median = deltas[(deltas.length / 2) - 1];
 		
-		if (deltas.length % 2 == 0) {
+		if(deltas.length % 2 == 0) {
 			median += deltas[deltas.length / 2];
 			median /= 2;
 		}
@@ -65,8 +65,8 @@ public class Benchmark {
 		currentIndex++;
 		currentIndex %= deltas.length;
 		
-		if (delta < min || min == 0) min = delta;
-		if (delta > max) max = delta;
+		if(delta < min || min == 0) min = delta;
+		if(delta > max) max = delta;
 	}
 	
 }

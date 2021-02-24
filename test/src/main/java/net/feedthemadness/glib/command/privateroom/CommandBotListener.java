@@ -4,37 +4,39 @@ import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.executor.CommandListener;
 import net.feedthemadness.glib.command.executor.CommandUsageListener;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
+import net.feedthemadness.glib.command.executor.listener.CmdArg;
+import net.feedthemadness.glib.command.executor.listener.CmdContext;
 
 public class CommandBotListener implements ICommandExecutor {
 	
 	@CommandUsageListener("help")
-	public void help(CommandContext context) {
+	public void help(@CmdContext CommandContext context) {
 		System.out.println("default help");
 	}
 	
 	@CommandUsageListener("default")
-	public void usage(CommandContext context) {
+	public void usage(@CmdContext CommandContext context) {
 		System.out.println("default usage");
 	}
 	
 	@CommandListener("config name")
-	public void configName(CommandContext context, String arg1, String name) {
-		System.out.println(name);
+	public void configName(@CmdContext CommandContext context, @CmdArg("name") String name) {
+		System.out.println("rename channel to " + name);
 	}
 	
 	@CommandUsageListener("config whitelist usage")
-	public void configWhitelistHelp(CommandContext context) {
+	public void configWhitelistHelp(@CmdContext CommandContext context) {
 		System.out.println("whitelist usage");
 	}
 	
 	@CommandListener("config whitelist add")
-	public void configWhitelistAdd(CommandContext context, String arg1, String arg2, String id) {
-		System.out.println("whitelist add " + id);
+	public void configWhitelistAdd(@CmdContext CommandContext context, @CmdArg("user") String user) {
+		System.out.println("whitelist add " + user);
 	}
 	
 	@CommandListener("config whitelist remove")
-	public void configWhitelistRemove(CommandContext context, String arg1, String arg2, String id) {
-		System.out.println("whitelist remove " + id);
+	public void configWhitelistRemove(@CmdContext CommandContext context, @CmdArg("user") String user) {
+		System.out.println("whitelist remove " + user);
 	}
 	
 }

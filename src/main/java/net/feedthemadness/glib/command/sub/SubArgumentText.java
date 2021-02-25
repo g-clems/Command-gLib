@@ -12,7 +12,7 @@ public class SubArgumentText extends ASubCommandElement {
 	}
 	
 	@Override
-	public SubArgumentText addSubElement(ACommandElement subElement) {
+	public SubArgumentText addSubElement(ASubCommandElement subElement) {
 		Main.getTerminal().warning("Could not add SubElement in SubArgumentText");
 		//TODO proper error
 		return this;

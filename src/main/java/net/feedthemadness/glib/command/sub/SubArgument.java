@@ -15,7 +15,7 @@ public class SubArgument extends ASubCommandElement {
 	}
 	
 	@Override
-	public SubArgument addSubElement(ACommandElement subElement) {
+	public SubArgument addSubElement(ASubCommandElement subElement) {
 		super.addSubElement(subElement);
 		return this;
 	}

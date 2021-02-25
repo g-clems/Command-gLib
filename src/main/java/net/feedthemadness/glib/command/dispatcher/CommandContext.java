@@ -1,7 +1,9 @@
 package net.feedthemadness.glib.command.dispatcher;
 
 import net.feedthemadness.glib.command.Command;
+import net.feedthemadness.glib.command.executor.CommandUsageExecutor;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +15,8 @@ public class CommandContext {
 	
 	private Map<String, Object> dispatchContext = new HashMap<>();
 	private Map<String, Object> argumentContext = new HashMap<>();
+	
+	private CommandUsageExecutor[] usage = new CommandUsageExecutor[0];
 	
 	public CommandContext(ICommandDispatcher dispatcher, Command command, String parsableCommand) {
 		this.dispatcher = dispatcher;
@@ -58,6 +62,14 @@ public class CommandContext {
 	
 	public void putArgument(String key, Object value) {
 		argumentContext.put(key, value);
+	}
+	
+	public CommandUsageExecutor[] getUsage() {
+		return Arrays.copyOf(usage, usage.length);
+	}
+	
+	public void setUsage(CommandUsageExecutor[] usage) {
+		this.usage = usage;
 	}
 	
 }

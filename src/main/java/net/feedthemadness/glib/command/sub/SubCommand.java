@@ -26,7 +26,7 @@ public class SubCommand extends ASubCommandElement {
 	}
 	
 	@Override
-	public SubCommand addSubElement(ACommandElement subElement) {
+	public SubCommand addSubElement(ASubCommandElement subElement) {
 		super.addSubElement(subElement);
 		return this;
 	}

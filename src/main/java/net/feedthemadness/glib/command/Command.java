@@ -4,6 +4,7 @@ import net.feedthemadness.glib.command.component.CommandLabel;
 import net.feedthemadness.glib.command.component.CommandPrefix;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
+import net.feedthemadness.glib.command.sub.ASubCommandElement;
 
 public class Command extends ACommandElement {
 
@@ -14,23 +15,11 @@ public class Command extends ACommandElement {
 	
 	public Command() {
 	}
-
-//	public Command(String name) {
-//		this.name = Optional.ofNullable(name);
-//	}
-//
-//	public String getName() {
-//		return name.orElse("");
-//	}
-//
-//	public boolean hasName() {
-//		return name.isPresent();
-//	}
-//
-//	public Command setName(String name) {
-//		this.name = Optional.ofNullable(name);
-//		return this;
-//	}
+	
+	public Command(String prefix, String label, String... aliases) {
+		setPrefix(prefix);
+		setLabelAndAliases(label, aliases);
+	}
 	
 	public CommandPrefix getPrefix() {
 		return prefix;
@@ -71,7 +60,7 @@ public class Command extends ACommandElement {
 	}
 	
 	@Override
-	public Command addSubElement(ACommandElement subElement) {
+	public Command addSubElement(ASubCommandElement subElement) {
 		super.addSubElement(subElement);
 		return this;
 	}

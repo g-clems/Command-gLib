@@ -16,6 +16,11 @@ public class Command extends ACommandElement {
 	public Command() {
 	}
 	
+	public Command(String prefix, String label) {
+		setPrefix(prefix);
+		setLabelAndAliases(label);
+	}
+	
 	public Command(String prefix, String label, String... aliases) {
 		setPrefix(prefix);
 		setLabelAndAliases(label, aliases);

@@ -1,6 +1,5 @@
 package net.feedthemadness.glib.command.sub;
 
-import net.feedthemadness.glib.command.ACommandElement;
 import net.feedthemadness.glib.command.Main;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;

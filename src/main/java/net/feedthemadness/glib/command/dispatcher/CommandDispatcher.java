@@ -9,6 +9,7 @@ import net.feedthemadness.glib.command.executor.ICommandExecutor;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Map;
 
 public class CommandDispatcher implements ICommandDispatcher {
 	
@@ -34,7 +35,7 @@ public class CommandDispatcher implements ICommandDispatcher {
 		
 		boolean noListenerMethod = true;
 		
-		for(int i = 0; i < methods.length; i++) {
+		for(int i = 0 ; i < methods.length ; i++) {
 			Method method = methods[i];
 			
 			if(!method.isAnnotationPresent(CommandUsageListener.class)) {
@@ -65,12 +66,13 @@ public class CommandDispatcher implements ICommandDispatcher {
 	}
 	
 	@Override
-	public void dispatch(ICommandDispatcher dispatcher, String parsableCommand, Object... dispatchContext) {
+	public void dispatch(ICommandDispatcher dispatcher, String parsableCommand, Map<String, Object> dispatchContext) {
 		boolean noDispatch = true;
 		
-		for(int i = 0; i < commands.length; i++) {
+		for(int i = 0 ; i < commands.length ; i++) {
 			Command command = commands[i];
 			CommandContext context = new CommandContext(dispatcher, command, parsableCommand);
+			if(dispatchContext != null) context.setDispatchContext(dispatchContext);
 			
 			boolean dispatched = command.dispatch(context);
 			if(dispatched && noDispatch) noDispatch = false;
@@ -78,7 +80,7 @@ public class CommandDispatcher implements ICommandDispatcher {
 		
 		if(noDispatch) {
 			
-			for(int i = 0; i < usageExecutors.length; i++) {
+			for(int i = 0 ; i < usageExecutors.length ; i++) {
 				usageExecutors[i].dispatch(new CommandContext(dispatcher, null, parsableCommand));
 			}
 		}

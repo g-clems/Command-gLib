@@ -9,6 +9,7 @@ import net.feedthemadness.glib.command.executor.listener.CmdArg;
 import net.feedthemadness.glib.command.executor.listener.CmdContext;
 import net.feedthemadness.glib.command.utils.Benchmark;
 
+import java.util.Map;
 import java.util.Random;
 
 public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
@@ -26,7 +27,7 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	}
 	
 	@Override
-	public void dispatch(ICommandDispatcher dispatcher, String parsableCommand, Object... dispatchContext) {
+	public void dispatch(ICommandDispatcher dispatcher, String parsableCommand, Map<String, Object> dispatchContext) {
 		commandDispatcher.dispatch(dispatcher, parsableCommand, dispatchContext);
 	}
 	
@@ -66,8 +67,8 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 		Benchmark benchmark = new Benchmark(tests / 1000);
 		Benchmark globalBenchmark = new Benchmark(1);
 		
-		for(int i = 0; i < parsableCommands.length ; i++) {
-			commandDispatcher.dispatch(this, parsableCommands[i]);
+		for(int i = 0 ; i < parsableCommands.length ; i++) {
+			commandDispatcher.dispatch(this, parsableCommands[i], null);
 			if((i - 1 % 1000) == 0) benchmark.update();
 		}
 		
@@ -86,7 +87,7 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	public void startListener() {
 		while(!stop) {
 			String str = Main.getTerminal().requestString("");
-			commandDispatcher.dispatch(this, str);
+			commandDispatcher.dispatch(this, str, null);
 		}
 	}
 	
@@ -96,7 +97,8 @@ public class TestDispatcher implements ICommandDispatcher, ICommandExecutor {
 	}
 	
 	@CommandListener("benchmark")
-	public void benchmark(@CmdContext CommandContext context, @CmdArg("str") String str, @CmdArg("a") int a, @CmdArg("b") int b, @CmdArg("c") int c) {}
+	public void benchmark(@CmdContext CommandContext context, @CmdArg("str") String str, @CmdArg("a") int a, @CmdArg("b") int b, @CmdArg("c") int c) {
+	}
 	
 	@CommandListener("stop")
 	public void stop(@CmdContext CommandContext context) {

@@ -1,6 +1,5 @@
 package net.feedthemadness.glib.command.sub;
 
-import net.feedthemadness.glib.command.ACommandElement;
 import net.feedthemadness.glib.command.Main;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
@@ -12,7 +11,7 @@ public class SubArgumentText extends ASubCommandElement {
 	}
 	
 	@Override
-	public SubArgumentText addSubElement(ACommandElement subElement) {
+	public SubArgumentText addSubElement(ASubCommandElement subElement) {
 		Main.getTerminal().warning("Could not add SubElement in SubArgumentText");
 		//TODO proper error
 		return this;

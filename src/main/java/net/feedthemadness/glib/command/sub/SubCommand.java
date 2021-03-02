@@ -1,6 +1,5 @@
 package net.feedthemadness.glib.command.sub;
 
-import net.feedthemadness.glib.command.ACommandElement;
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.executor.ICommandExecutor;
 import net.feedthemadness.glib.command.sub.command.ISubCommandType;
@@ -26,7 +25,7 @@ public class SubCommand extends ASubCommandElement {
 	}
 	
 	@Override
-	public SubCommand addSubElement(ACommandElement subElement) {
+	public SubCommand addSubElement(ASubCommandElement subElement) {
 		super.addSubElement(subElement);
 		return this;
 	}

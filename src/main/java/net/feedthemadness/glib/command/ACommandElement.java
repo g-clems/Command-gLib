@@ -2,19 +2,20 @@ package net.feedthemadness.glib.command;
 
 import net.feedthemadness.glib.command.dispatcher.CommandContext;
 import net.feedthemadness.glib.command.executor.*;
+import net.feedthemadness.glib.command.sub.ASubCommandElement;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
 public abstract class ACommandElement {
 	
-	protected ACommandElement[] subElements = new ACommandElement[0];
+	protected ASubCommandElement[] subElements = new ASubCommandElement[0];
 	
 	protected CommandUsageExecutor[] usageExecutors = new CommandUsageExecutor[0];
 	protected CommandExecutor[] commandExecutors = new CommandExecutor[0];
 	
-	public ACommandElement addSubElement(ACommandElement subElement) {
-		ACommandElement[] subCommands = Arrays.copyOf(this.subElements, this.subElements.length + 1);
+	public ACommandElement addSubElement(ASubCommandElement subElement) {
+		ASubCommandElement[] subCommands = Arrays.copyOf(this.subElements, this.subElements.length + 1);
 		subCommands[subCommands.length - 1] = subElement;
 		
 		this.subElements = subCommands;
@@ -90,7 +91,6 @@ public abstract class ACommandElement {
 	}
 	
 	protected boolean dispatch(CommandContext context, int depth) {
-		
 		boolean noExecution = commandExecutors.length == 0;
 		
 		for(int i = 0 ; i < commandExecutors.length ; i++) {
@@ -98,6 +98,8 @@ public abstract class ACommandElement {
 			
 			commandExecutor.dispatch(context);
 		}
+		
+		if(usageExecutors.length > 0) context.setUsage(usageExecutors);
 		
 		depth++;
 		if(depth >= context.parsableArgumentsSize()) {
@@ -131,15 +133,7 @@ public abstract class ACommandElement {
 	
 	protected void usageDispatch(CommandContext context) {
 		
-		if(usageExecutors.length == 0) {
-			CommandUsageExecutor[] commandUsageExecutors = context.getCommand().usageExecutors;
-			
-			for(int i = 0 ; i < commandUsageExecutors.length ; i++) {
-				CommandUsageExecutor usageExecutor = commandUsageExecutors[i];
-				
-				if(usageExecutor.getId().equals("default")) usageExecutor.dispatch(context);
-			}
-		}
+		CommandUsageExecutor[] usageExecutors = context.getUsage();
 		
 		for(int i = 0 ; i < usageExecutors.length ; i++) {
 			CommandUsageExecutor usageExecutor = usageExecutors[i];
